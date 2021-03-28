@@ -2,29 +2,24 @@ from django.shortcuts import render
 
 from django.http import HttpResponse
 from django.template import loader
-from .forms import Userid,Orgid, RegisterOrg,RegisterUser
-# from .forms import UserSerializer,OrganizationSerializer
+from .forms import RegisterOrg,RegisterUser
 from .models import User,Organization
-#API
-# from rest_framework import viewsets, status
-# from rest_framework.response import Response
-# from rest_framework.views import APIView
+
+
+orgselected=False
+exists=False
 
 def index(request): #get all data from dbs
     orgs= Organization.objects.all()
     users= User.objects.all()
     return render(request, 'index.html', {'orgs':orgs, 'users':users})
 
-
-orgselected=False
-exists=False
-
 #region User
 def registerUser(request):
 	global orgselected, exists
 	orgselected=False
 	exists=False
-	if request.method == 'POST':
+	if request.method == 'POST': #If data is sent => add to db and go back to index
 		form = RegisterUser(request.POST)
 		if form.is_valid():
 			userform = form.cleaned_data
@@ -32,19 +27,30 @@ def registerUser(request):
 			username = userform['username']
 			email = userform['email']
 			phone = userform['phone']
-			User.objects.create(username=username, email=email, phone=phone)
+			org_id = userform['org_id']
+			User.objects.create(username=username, email=email, phone=phone, org_id=org_id)
 			
-			users=User.objects.all()
-			# print("type of users:",type(users))
-			return render(request, 'register.html', {'form': form,'users':users, 'orgselected':orgselected, 'exists':exists})
-	else:
+			return index(request)
+	else: #If no data sent (just visiting register page => render page)
 		form = RegisterUser()
-	users=User.objects.all()
-	# print("type of users:",type(users))
-	return render(request, 'register.html', {'form': form,'users':users, 'orgselected':orgselected})
+	return render(request, 'register.html', {'form': form, 'orgselected':orgselected, 'exists':exists})
 
-def updateUser(request):
-	user = User.objects.get(user_id=pk)
+
+def getUser(request, _id): #Get user page with info to edit
+	global orgselected, exists
+	orgselected=False
+	exists=True
+	user = User.objects.get(user_id=_id)
+	form = RegisterUser(request.POST)
+	userform = form.cleaned_data
+	username = userform['username']
+	email = userform['email']
+	phone = userform['phone']
+	
+	return render(request, 'register.html', {'form': form,'user':user, 'orgselected':orgselected, 'exists':exists})
+
+def editUser(request, _id): #API to change in db and go back to index
+	user = User.objects.get(user_id=_id)
 	form = RegisterUser(request.POST)
 	if form.is_valid():
 		userform = form.cleaned_data
@@ -52,16 +58,15 @@ def updateUser(request):
 		username = userform['username']
 		email = userform['email']
 		phone = userform['phone']
-		User.objects.update(username=username, email=email, phone=phone)
+		user.objects.update(username=username, email=email, phone=phone)
 		
-		users=User.objects.all()
-		# print("type of users:",type(users))
 		return render(request, 'register.html', {'form': form,'users':users})
 
-def deletUser(request):
-	user = User.objects.get(user_id=pk)
+def deleteUser(request, _id): #API that renders back index
+	user = User.objects.get(user_id=_id)
 	user.delete()
-	return render(request, 'index.html')
+	# return render(request, 'index.html') #doesn't re-render the db data since not passed
+	return index(request)
 #endregion
 
 #region Org
@@ -69,7 +74,7 @@ def registerOrg(request):
 	global orgselected, exists
 	orgselected=True
 	exists=False
-	if request.method == 'POST':
+	if request.method == 'POST': #If data is sent => add to db and go back to index
 		form = RegisterOrg(request.POST)
 		if form.is_valid():
 			userform = form.cleaned_data
@@ -79,17 +84,27 @@ def registerOrg(request):
 			phone = userform['phone']
 			Organization.objects.create(orgname=orgname, email=email, phone=phone)
 			
-			orgs=Organization.objects.all()
-			# print("type of orgs:",type(orgs))
-			return render(request, 'register.html', {'form': form,'orgs':orgs, 'orgselected':orgselected, 'exists':exists})
-	else:
+			return index(request)
+	else: #If no data sent (just visiting register page => render page)
 		form = RegisterOrg()
-	orgs=Organization.objects.all()
-	# print("type of orgs:",type(orgs))
-	return render(request, 'register.html', {'form': form,'orgs':orgs, 'orgselected':orgselected})
+	return render(request, 'register.html', {'form': form, 'orgselected':orgselected, 'exists':exists})
 
-def updateOrg(request):
-	org = Organization.objects.get(org_id=pk)
+
+def getOrg(request, _id): #Get user page with info to edit
+	global orgselected, exists
+	orgselected=False
+	exists=True
+	user = User.objects.get(user_id=_id)
+	form = RegisterUser(request.POST)
+	userform = form.cleaned_data
+	username = userform['username']
+	email = userform['email']
+	phone = userform['phone']
+	
+	return render(request, 'register.html', {'form': form,'user':user, 'orgselected':orgselected, 'exists':exists})
+
+def editOrg(request, _id): #API to change in db and go back to index
+	org = Organization.objects.get(org_id=_id)
 	form = RegisterOrg(request.POST)
 	if form.is_valid():
 		userform = form.cleaned_data
@@ -97,55 +112,13 @@ def updateOrg(request):
 		orgname = userform['orgname']
 		email = userform['email']
 		phone = userform['phone']
-		User.objects.update(orgname=orgname, email=email, phone=phone)
-		
-		orgs=User.objects.all()
-		# print("type of orgs:",type(orgs))
-		return render(request, 'register.html', {'form': form,'orgs':orgs})
+		org.objects.update(orgname=orgname, email=email, phone=phone)
 
-def deleteOrg(request):
-	org = Organization.objects.get(org_id=pk)
+		return render(request, 'register.html', {'form': form,'org':org})
+
+def deleteOrg(request, _id): #API that renders back index
+	org = Organization.objects.get(org_id=_id)
 	org.delete()
-	return render(request, 'index.html')
+	# return render(request, 'index.html') #doesn't re-render the db data since not passed
+	return index(request)
 #endregion
-
-# class UserViewSet(viewsets.ViewSet):
-#     def getall(self, request):
-#         Users = User.objects.all()
-#         serializer = UserSerializer(Users, many=True)
-#         return Response(serializer.data)
-
-#     def create(self, request):
-#         serializer = UserSerializer(data=request.data)
-#         serializer.is_valid(raise_exception=True)
-#         serializer.save()
-#         publish('User_created', serializer.data)
-#         return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-#     def retrieve(self, request, pk=None):
-#         User = User.objects.get(id=pk)
-#         serializer = UserSerializer(User)
-#         return Response(serializer.data)
-
-#     def update(self, request, pk=None):
-#         User = User.objects.get(id=pk)
-#         serializer = UserSerializer(instance=User, data=request.data)
-#         serializer.is_valid(raise_exception=True)
-#         serializer.save()
-#         publish('User_updated', serializer.data)
-#         return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
-
-#     def destroy(self, request, pk=None):
-#         User = User.objects.get(id=pk)
-#         User.delete()
-#         publish('User_deleted', pk)
-#         return Response(status=status.HTTP_204_NO_CONTENT)
-
-
-# class UserAPIView(APIView):
-#     def get(self, _):
-#         users = User.objects.all()
-#         user = random.choice(users)
-#         return Response({
-#             'id': user.id
-#         })

@@ -2,6 +2,8 @@
 
 System containing CRUD operations to create and list contact information for Organizations and Users that can also be in an organization.
 
+NOTE: You need to be connected to the internet for the Bootstrap CDN to work (beautify the front-end)
+
 ## Installation:
 Requires [Python 3](https://www.python.org/downloads/)
 

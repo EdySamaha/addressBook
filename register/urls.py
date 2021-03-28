@@ -5,26 +5,15 @@ from . import views
 
 urlpatterns = [
     url(r'^$',views.index),
-    # url(r'^register',views.register)
+    # url(r'^register',views.register) #Links refer to views to trigger NOT html files. The html file rendered is specified in the view function
     path('neworg/',views.registerOrg), #no '/' before name
     path('newuser/',views.registerUser),
-    # path('Users', views.UserViewSet.as_view({
-    #     'get': 'getall',
-    #     'post': 'register'
-    # })),
-    # path('Users/<str:pk>', views.UserViewSet.as_view({
-    #     'get': 'retrieve',
-    #     'put': 'update',
-    #     'delete': 'destroy'
-    # })),
-
-    #  path('Organizations', views.OrganizationViewSet.as_view({
-    #     'get': 'getall',
-    #     'post': 'register'
-    # })),
-    # path('Organizations/<str:pk>', views.OrganizationViewSet.as_view({
-    #     'get': 'retrieve',
-    #     'put': 'update',
-    #     'delete': 'destroy'
-    # })),
+    #Get user or org page
+    path('getorg/<int:_id>',views.getOrg),
+    path('getuser/<int:_id>',views.getUser),
+    #APIs
+    path('editorg/<int:_id>',views.editOrg),
+    path('edituser/<int:_id>',views.editUser),
+    path('deleteorg/<int:_id>',views.deleteOrg),
+    path('deleteuser/<int:_id>',views.deleteUser),
 ]

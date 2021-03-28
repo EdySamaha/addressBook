@@ -37,9 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'home.apps.HomeConfig', #Note: i can also render index from register.views
+    # 'home.apps.HomeConfig', #Note: i can also render index from register.views, so for now no need for home app
     'register.apps.RegisterConfig',
-    'rest_framework'   
+    # 'rest_framework'  #Not used here.
 ]
 
 MIDDLEWARE = [
