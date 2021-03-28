@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+    <title>Home</title>
+
+</head>
+<body>
+<h2>Address Book</h2>
+
+<!--links refer to urls.py NOT html files-->
+<a href="/newuser">Add User</a> 
+<a href="/neworg">Add Organization</a>
+
+<h3>Organizations:</h3>
+{%  for org in orgs  %} <!--From database (models.py)-->
+    <div> <!--spaces are considered when they are outside {}-->
+        <b>name:</b> {{  org.orgname  }}
+        <b>email:</b> {{  org.email  }}
+        <b>phone:</b> {{  org.phone  }}
+    </div>
+    <br>
+{%  endfor  %}
+
+<h3>Users:</h3>
+{%  for user in users  %} <!--From database (models.py)-->
+    <div> <!--spaces are considered when they are outside {}-->
+        <b>name:</b> {{ user.username  }}
+        <b>email:</b> {{ user.email  }}
+        <b>phone:</b> {{ user.phone }}
+        <b>Organization:</b> {{  user.org_id  }}
+    </div>
+    <br>    
+{%  endfor  %}
+
+
+</body>
+</html>
