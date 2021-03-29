@@ -20,7 +20,7 @@
 </div>
 
 
-<div   style="padding: 3%;">
+<div   style="padding: 3%; padding-bottom: 0%;">
 <h3 class="card-title">Organizations:</h3>
 <!-- NOTE: SPACES ARE SUPER IMPORTANT INSIDE {} ex:">0" generated error coz no space:"> 0" -->
 {%  if orgs.count > 0  %} <!--From database (models.py)-->
@@ -55,6 +55,14 @@
 
 <div  style="padding: 3%;">
 <h3 class="card-title">Users:</h3>
+<!-- <div>
+    Filter:
+    <form method="POST" class="row g-3" style="padding-left: 4%; max-width: 600px;">
+        {% csrf_token %}
+        {{ orgfilter  }} 
+        <button class="btn btn-primary" style="width: 80px;" type="submit">Filter</button>
+    </form>    
+</div> -->
 {%  if users.count > 0  %} <!--From database (models.py)-->
     <table class="table table-striped"> <!--spaces are considered when they are outside {}-->
         <thead>

@@ -18,6 +18,10 @@ class RegisterOrg(ModelForm):
 		model = Organization	
 		fields = ['orgname', 'email','phone']
 
+# class OrgidFilter(ModelForm):
+# 	class Meta:
+# 		model = Organization	
+# 		fields = ['org_id']
 
 # class UserSerializer(serializers.ModelSerializer):
 #     class Meta:
