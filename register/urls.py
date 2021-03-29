@@ -12,7 +12,6 @@ urlpatterns = [
     path('getorg/<int:_id>',views.getOrg),
     path('getuser/<int:_id>',views.getUser),
     #APIs
-    # path('filter/<int:_id>', views.getFilteredData),
     # path('editorg/<int:_id>',views.editOrg), #NO NEED FOR OTHER Urls, just do POST in 'getorg' like in 'neworg' (registerOrg)
     # path('edituser/<int:_id>',views.editUser),
     path('deleteorg/<int:_id>',views.deleteOrg),

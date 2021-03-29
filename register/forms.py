@@ -1,6 +1,7 @@
 from django.forms import ModelForm
 from .models import Organization,User
 from django import forms 
+import django_filters 
 # from rest_framework import serializers #Serializers for APIs
 
 # Create the form class.
@@ -18,18 +19,10 @@ class RegisterOrg(ModelForm):
 		model = Organization	
 		fields = ['orgname', 'email','phone']
 
-# class OrgidFilter(ModelForm):
-# 	class Meta:
-# 		model = Organization	
-# 		fields = ['org_id']
+#Filter
+class UsersFilter(django_filters.FilterSet):
+	class Meta:
+		model = User	
+		fields = ['org_id']
 
-# class UserSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = User
-#         fields = '__all__'
-
-# class OrganizationSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Organization
-#         fields = '__all__'
 

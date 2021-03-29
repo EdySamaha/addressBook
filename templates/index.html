@@ -41,8 +41,8 @@
                 <td>{{  org.email  }}</td>
                 <td>{{  org.phone  }}</td>
                 <td>
-                    <a class="btn btn-info" href="/getorg/{{org.org_id}}">Edit</a>
-                    <a class="btn btn-danger" href="/deleteorg/{{org.org_id}}">Delete</a>
+                    <a class="btn btn-info btn-sm" href="/getorg/{{org.org_id}}">Edit</a>
+                    <a class="btn btn-danger btn-sm" href="/deleteorg/{{org.org_id}}">Delete</a>
                 </td>
             </tr>
             {%  endfor  %}  
@@ -50,19 +50,22 @@
     </table>
 {% else %}
 <i>Empty</i>
+<br>
 {%  endif  %}
 </div>
+<br>
 
 <div  style="padding: 3%;">
-<h3 class="card-title">Users:</h3>
-<!-- <div>
-    Filter:
-    <form method="POST" class="row g-3" style="padding-left: 4%; max-width: 600px;">
+<div class="card-title row"> 
+    <h3 class="col" style="display: !inline; margin-right: -20%; ">Users:</h3>
+    <form method="GET" class="col" style="max-width: 400px;">
         {% csrf_token %}
-        {{ orgfilter  }} 
-        <button class="btn btn-primary" style="width: 80px;" type="submit">Filter</button>
+        Filter by
+        {{ usersfilter.form  }} 
+        <button class="btn btn-primary btn-sm" type="submit">Filter</button>
     </form>    
-</div> -->
+</div>
+
 {%  if users.count > 0  %} <!--From database (models.py)-->
     <table class="table table-striped"> <!--spaces are considered when they are outside {}-->
         <thead>
@@ -81,8 +84,8 @@
                 <td>{{ user.phone }}</td>
                 <td>{{  user.org_id  }}</td>
                 <td>
-                    <a class="btn btn-info" href="/getuser/{{user.user_id}}">Edit</a>
-                    <a class="btn btn-danger" href="/deleteuser/{{user.user_id}}">Delete</a>
+                    <a class="btn btn-info btn-sm" href="/getuser/{{user.user_id}}">Edit</a>
+                    <a class="btn btn-danger btn-sm" href="/deleteuser/{{user.user_id}}">Delete</a>
                 </td>
             </tr>
             {%  endfor  %}

@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # 'home.apps.HomeConfig', #Note: i can also render index from register.views, so for now no need for home app
     'register.apps.RegisterConfig',
+    'django_filters',
     # 'rest_framework'  #Not used here.
 ]
 
