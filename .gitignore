@@ -1,0 +1,12 @@
+# Django
+*.log
+*.pyc
+migrations/
+__pycache__/
+local_settings.py
+
+# Env
+.env/
+.venv/
+env/
+venv/
