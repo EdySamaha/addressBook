@@ -130,4 +130,4 @@ STATIC_URL = '/static/'
 
 
 # Activate Django-Heroku
-django_heroku.settings(locals()) #Comment during dev, uncomment for Heroku deployment ONLY
+# django_heroku.settings(locals()) #Comment during dev, uncomment for Heroku deployment ONLY
